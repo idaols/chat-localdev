@@ -43,7 +43,7 @@ writeMsg.addEventListener("submit", (event) => {
 
 socket.on("new message", (msg, username) => {
   const item = document.createElement("li");
-  item.innerHTML = username + ": " + msg;
+  item.innerHTML = `<b> ${username}: </b>` + msg;
   messages.appendChild(item);
 });
 
