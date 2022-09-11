@@ -6,33 +6,120 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/socket.io/socket.io.js"></script>
     <script defer src="chat.js"></script>
+    <link href="css/output.css" rel="stylesheet" />
     <title>Chat app</title>
-    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <form id="join">
-      <p>Valitse huone:</p>
-      <input type="radio" id="1" name="room" value="1" />
-      <label for="1">Huone 1</label>
-      <input type="radio" id="2" name="room" value="2" />
-      <label for="2">Huone 2</label>
-      <input type="radio" id="3" name="room" value="3" />
-      <label for="3">Huone 3</label>
-      <br />
-      <br />
-      <input type="text" id="username" placeholder="käyttäjänimi" />
-      <br />
-      <br />
-      <button type="submit">Liity huoneeseen</button>
-      <br />
-      <br />
-    </form>
-    <button id="leaveBtn">Poistu huoneesta</button>
-    <h1 id="roomNumber"></h1>
-    <form id="msg-input">
-      <input type="text" id="message" placeholder="kirjoita viesti..." />
-      <button type="submit">Lähetä</button>
-    </form>
-    <ul id="messages"></ul>
+    <div class="top-0 bg-nav-bg p-2 bg-no-repeat flex justify-center w-full">
+      <div
+        class="bg-white mt-10 p-10 border-solid drop-shadow-xl rounded-xl w-fit flex justify-center"
+      >
+        <form
+          class="w-fit flex justify-center content-center flex-col"
+          id="join"
+        >
+          <h1 class="text-2xl text-center font-bold text-mm-fiery-rose mb-1">
+            Chat app
+          </h1>
+          <hr />
+          <p class="mt-3 text-sm text-center">Valitse huone:</p>
+          <div class="mb-3 p-2">
+            <input type="radio" id="1" name="room" value="1" />
+            <label class="pr-3" for="1">Huone 1</label>
+            <input type="radio" id="2" name="room" value="2" />
+            <label class="pr-3" for="2">Huone 2</label>
+            <input type="radio" id="3" name="room" value="3" />
+            <label class="pr-3" for="3">Huone 3</label>
+          </div>
+          <div class="flex flex-wrap content-center justify-center">
+            <input
+              class="border-2 border-mm-sky-blue-crayola p-2 rounded-lg w-fit focus:outline-mm-fiery-rose"
+              type="text"
+              id="username"
+              placeholder="Valitse käyttäjänimi"
+            />
+            <button class="btn-own ml-2" type="submit">Liity</button>
+          </div>
+        </form>
+        <div id="roomDiv" class="flex justify-center">
+          <div class="flex flex-row justify-between">
+            <div class="flex-col">
+              <h1
+                id="roomNumber"
+                class="text-lg font-bold text-mm-dark-sienna"
+              ></h1>
+              <p class="text-sm">Aloita chattailu!</p>
+            </div>
+            <button class="btn-own" id="leaveBtn">Poistu</button>
+          </div>
+          <form id="msg-input" class="pt-5 pb-3">
+            <div
+              class="flex items-center py-2 px-3 bg-mm-fiery-rose rounded-xl"
+            >
+              <button
+                type="button"
+                class="inline-flex justify-center p-2 text-mm-key-lime rounded-full cursor-pointer hover:text-mm-fiery-rose hover:bg-mm-key-lime"
+              >
+                <svg
+                  class="w-6 h-6"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+              <button
+                type="button"
+                class="p-2 text-mm-key-lime rounded-full cursor-pointer hover:text-mm-fiery-rose hover:bg-mm-key-lime"
+              >
+                <svg
+                  class="w-6 h-6"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+              <textarea
+                id="message"
+                rows="1"
+                class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:outline-mm-fiery-rose"
+                placeholder="Lähetä viesti..."
+              ></textarea>
+              <button
+                type="submit"
+                class="inline-flex justify-center p-2 text-mm-key-lime rounded-full cursor-pointer hover:text-mm-fiery-rose hover:bg-mm-key-lime"
+              >
+                <svg
+                  class="w-6 h-6 rotate-90"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </form>
+          <!-- <form id="msg-input">
+            <input type="text" id="message" placeholder="kirjoita viesti..." />
+            <button type="submit">Lähetä</button>
+          </form> -->
+          <ul id="messages"></ul>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
